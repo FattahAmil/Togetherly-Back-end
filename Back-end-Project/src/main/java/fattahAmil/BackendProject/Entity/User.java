@@ -43,13 +43,14 @@ public class User implements UserDetails {
 
     private String email;
 
+    private Date created_at;
+
+    private Date updated_at;
+
     @ManyToMany
     @JoinTable(name = "User_role",joinColumns = @JoinColumn(name = "User_id"),inverseJoinColumns =@JoinColumn(name = "Role_id") )
     private Set<Role> roles = new HashSet<>();
 
-    private Date created_at;
-
-    private Date updated_at;
 
     public User(String id, String firstName, String lastName, String password, String email, Set<Role> roles) {
         this.id = id;
