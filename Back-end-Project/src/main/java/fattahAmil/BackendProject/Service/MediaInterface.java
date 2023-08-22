@@ -12,8 +12,5 @@ public interface MediaInterface {
     Media uploadMedia(MultipartFile file, User user, Post post);
     Media getMediaById(Long mediaId) throws ChangeSetPersister.NotFoundException;
     List<Media> getAllMediaForUser(User user);
-
-
-
     List<Media> getAllMediaForPost(Post post);
 }

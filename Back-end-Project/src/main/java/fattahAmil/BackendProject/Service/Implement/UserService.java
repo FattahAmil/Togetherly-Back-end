@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -49,5 +50,30 @@ public class UserService implements UserInterface {
         }
         User user=userRepository.findByEmail(username).get();
         user.getRoles().add(role);
+    }
+
+    @Override
+    public User followUser(String followerId, String followedId) {
+        User follower = userRepository.findById(followerId).orElse(null);
+        User followed = userRepository.findById(followedId).orElse(null);
+
+        if (follower != null && followed != null) {
+            follower.getFollowing().add(followed);
+            followed.getFollowers().add(follower);
+            userRepository.save(follower);
+            userRepository.save(followed);
+            return follower;
+        }
+
+        return null;
+    }
+
+    @Override
+    public Set<User> getFollowers(String userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user != null) {
+            return user.getFollowers();
+        }
+        return new HashSet<>();
     }
 }
