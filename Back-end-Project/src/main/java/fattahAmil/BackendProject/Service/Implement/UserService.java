@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -32,6 +33,15 @@ public class UserService implements UserInterface {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(new HashSet<>());
         return userRepository.save(user);
+    }
+
+    @Override
+    public Optional<User> getUserById(String id){
+        return userRepository.findById(id);
+    }
+    @Override
+    public Optional<User> getUserByEmail(String email){
+        return userRepository.findByEmail(email);
     }
 
     @Override

@@ -20,6 +20,7 @@ public class NotificationService implements NotificationInterface {
         notification.setRecipient(recipient);
         notification.setMessage(message);
         notification.setTimestamp(LocalDateTime.now());
+        notification.setIsRead(false);
         return notificationRepository.save(notification);
     }
 

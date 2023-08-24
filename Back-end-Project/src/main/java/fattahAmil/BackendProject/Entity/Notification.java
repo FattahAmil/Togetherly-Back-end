@@ -3,6 +3,7 @@ package fattahAmil.BackendProject.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -27,4 +28,5 @@ public class Notification {
     @ManyToOne
     @JoinColumn(referencedColumnName = "id")
     private User recipient;
+
 }

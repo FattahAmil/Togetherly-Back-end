@@ -28,6 +28,7 @@ public class ConfigSecurity {
         http.sessionManagement((sessionAuthenticationStrategy -> sessionAuthenticationStrategy.sessionCreationPolicy(SessionCreationPolicy.STATELESS)));
         http.authorizeRequests().requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                 .requestMatchers("/authentication/**").permitAll()
+                .requestMatchers("/User/**").authenticated()
                 .and()
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
