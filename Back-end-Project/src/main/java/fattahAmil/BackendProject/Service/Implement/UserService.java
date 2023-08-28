@@ -1,6 +1,7 @@
 package fattahAmil.BackendProject.Service.Implement;
 
 
+import fattahAmil.BackendProject.Auth.UserResponse;
 import fattahAmil.BackendProject.Entity.Role;
 import fattahAmil.BackendProject.Entity.User;
 import fattahAmil.BackendProject.Repository.RoleRepository;
@@ -10,10 +11,12 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -40,8 +43,10 @@ public class UserService implements UserInterface {
         return userRepository.findById(id);
     }
     @Override
-    public Optional<User> getUserByEmail(String email){
-        return userRepository.findByEmail(email);
+    public ResponseEntity<?> getUserByEmail(String email){
+            User user=userRepository.findByEmail(email).orElseThrow(()-> new NoSuchElementException("user not found"));
+            UserResponse user1=new UserResponse(user.getId(),user.getFirstName(),user.getLastName(),user.getFirstName()+' '+user.getLastName(),user.getEmail(),user.getProfileImage());
+        return ResponseEntity.ok(user1);
     }
 
     @Override

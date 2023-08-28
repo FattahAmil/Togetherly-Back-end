@@ -1,8 +1,10 @@
 package fattahAmil.BackendProject.Service;
 
 
+import fattahAmil.BackendProject.Auth.UserResponse;
 import fattahAmil.BackendProject.Entity.Role;
 import fattahAmil.BackendProject.Entity.User;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 import java.util.Set;
@@ -12,7 +14,7 @@ public interface UserInterface {
 
     Optional<User> getUserById(String id);
 
-    Optional<User> getUserByEmail(String email);
+    ResponseEntity<?> getUserByEmail(String email);
 
     Role saveRole(Role role);
     void addToUser(String username,String roleName);
