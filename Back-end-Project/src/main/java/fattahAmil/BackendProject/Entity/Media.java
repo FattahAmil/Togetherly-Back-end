@@ -3,6 +3,8 @@ package fattahAmil.BackendProject.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Blob;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,7 +23,8 @@ public class Media {
     @ManyToOne
     private Post post;
 
-    private String mediaUrl;
+    @Lob
+    private Blob mediaData;
 
     @Column(name = "file_name")
     private String fileName;

@@ -1,16 +1,10 @@
 package fattahAmil.BackendProject.Controller;
 
 
-import fattahAmil.BackendProject.Auth.RegisterRequest;
-import fattahAmil.BackendProject.Auth.UserResponse;
-import fattahAmil.BackendProject.Entity.User;
 import fattahAmil.BackendProject.Service.Implement.UserService;
-import fattahAmil.BackendProject.Service.SecurityService.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/User")

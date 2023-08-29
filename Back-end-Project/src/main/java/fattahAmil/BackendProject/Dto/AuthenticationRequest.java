@@ -1,4 +1,4 @@
-package fattahAmil.BackendProject.Auth;
+package fattahAmil.BackendProject.Dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package fattahAmil.BackendProject.Auth;
+package fattahAmil.BackendProject.Dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthenticationResponse {
-    private String access_token;
-    private String refresh_token;
-    private String user_name;
+public class RegisterRequest {
+    private String firstName;
+    private String lastName;
+    private String password;
     private String email;
 
 }

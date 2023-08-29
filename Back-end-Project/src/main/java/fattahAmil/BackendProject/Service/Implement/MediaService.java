@@ -41,31 +41,22 @@ public class MediaService implements MediaInterface {
 
 
     @Override
-    public Media uploadMedia(MultipartFile file, User user, Post post) {
-        try {
+    public Media uploadMedia(MultipartFile file) {
+       /* try {
             // Check if the file is empty
             if (file.isEmpty()) {
                 throw new IllegalArgumentException("Uploaded file is empty");
             }
 
-            // Check if the user and Post is valid
-            User existingUser = userRepository.findById(user.getId())
-                    .orElseThrow(ChangeSetPersister.NotFoundException::new);
-
-            Post existingPost = postRepository.findById(post.getId())
-                    .orElseThrow(ChangeSetPersister.NotFoundException::new);
-
             // Create a new media object
             Media media = new Media();
-            media.setUser(existingUser);
-            media.setPost(existingPost);
+
 
             // Save the file to your desired storage location
             String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
             String fileExtension = FilenameUtils.getExtension(fileName);
             String storedFileName = UUID.randomUUID().toString() + "." + fileExtension;
-            Path uploadPath = Paths.get("/path/to/your/media/storage/" + storedFileName);
-            Files.copy(file.getInputStream(), uploadPath, StandardCopyOption.REPLACE_EXISTING);
+            media.setMediaData(file.getBytes());
 
             // Set media properties
             media.setFileName(storedFileName);
@@ -74,13 +65,12 @@ public class MediaService implements MediaInterface {
 
 
             // Save the media object to the database
-            return mediaRepository.save(media);
+            return media;
         } catch (IOException e) {
             throw new RuntimeException("Failed to upload media", e);
-        } catch (ChangeSetPersister.NotFoundException | IllegalArgumentException e) {
-            throw new RuntimeException(e.getMessage(), e);
         }
-
+*/
+        return null;
     }
     @Override
     public Media getMediaById(Long mediaId) throws ChangeSetPersister.NotFoundException {

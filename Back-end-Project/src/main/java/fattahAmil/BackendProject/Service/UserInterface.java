@@ -1,7 +1,6 @@
 package fattahAmil.BackendProject.Service;
 
 
-import fattahAmil.BackendProject.Auth.UserResponse;
 import fattahAmil.BackendProject.Entity.Role;
 import fattahAmil.BackendProject.Entity.User;
 import org.springframework.http.ResponseEntity;

@@ -1,8 +1,8 @@
 package fattahAmil.BackendProject.Controller;
 
 
-import fattahAmil.BackendProject.Auth.AuthenticationRequest;
-import fattahAmil.BackendProject.Auth.RegisterRequest;
+import fattahAmil.BackendProject.Dto.AuthenticationRequest;
+import fattahAmil.BackendProject.Dto.RegisterRequest;
 import fattahAmil.BackendProject.Service.SecurityService.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

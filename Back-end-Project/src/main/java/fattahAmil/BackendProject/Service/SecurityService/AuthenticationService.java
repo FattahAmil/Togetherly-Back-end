@@ -1,8 +1,8 @@
 package fattahAmil.BackendProject.Service.SecurityService;
 
-import fattahAmil.BackendProject.Auth.AuthenticationRequest;
-import fattahAmil.BackendProject.Auth.AuthenticationResponse;
-import fattahAmil.BackendProject.Auth.RegisterRequest;
+import fattahAmil.BackendProject.Dto.AuthenticationRequest;
+import fattahAmil.BackendProject.Dto.AuthenticationResponse;
+import fattahAmil.BackendProject.Dto.RegisterRequest;
 import fattahAmil.BackendProject.Entity.Role;
 import fattahAmil.BackendProject.Entity.User;
 import fattahAmil.BackendProject.Repository.RoleCostumeRepository;

@@ -1,7 +1,7 @@
 package fattahAmil.BackendProject.Service.Implement;
 
 
-import fattahAmil.BackendProject.Auth.UserResponse;
+import fattahAmil.BackendProject.Dto.UserResponse;
 import fattahAmil.BackendProject.Entity.Role;
 import fattahAmil.BackendProject.Entity.User;
 import fattahAmil.BackendProject.Repository.RoleRepository;
