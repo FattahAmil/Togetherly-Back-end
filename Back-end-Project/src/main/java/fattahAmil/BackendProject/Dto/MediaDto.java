@@ -14,7 +14,9 @@ import java.sql.Blob;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MediaDto {
-
+     String fileName;
+     String fileType;
+     long fileSize;
      String fileContent;
 
 

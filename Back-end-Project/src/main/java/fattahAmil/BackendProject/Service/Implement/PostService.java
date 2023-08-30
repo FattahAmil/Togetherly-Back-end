@@ -69,6 +69,9 @@ public class PostService implements PostInterface {
                /* FileInputStream inputStream = new FileInputStream(mediaDto.getFileContent());
                 MultipartFile multipartFile = new MockMultipartFile(mediaDto.getFileContent(), inputStream);
                 Media media=mediaService.uploadMedia(multipartFile);*/
+                media.setFileName(mediaDto.getFileName());
+                media.setFileType(mediaDto.getFileType());
+                media.setFileSize(mediaDto.getFileSize());
                 media.setUser(user);
                 media.setPost(post);
 
