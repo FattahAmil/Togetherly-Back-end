@@ -1,5 +1,6 @@
 package fattahAmil.BackendProject.Service.Implement;
 
+import fattahAmil.BackendProject.Dto.LikeDto;
 import fattahAmil.BackendProject.Entity.Like;
 import fattahAmil.BackendProject.Entity.Post;
 import fattahAmil.BackendProject.Entity.User;
@@ -13,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,23 +33,34 @@ public class LikeService implements LikeInterface {
     private PostRepository postRepository;
 
     @Override
-    public Like likeUnlikePost(Long postId, String userId) throws ChangeSetPersister.NotFoundException {
-        User user = userRepository.findById(userId)
-                .orElseThrow(ChangeSetPersister.NotFoundException::new);
+    public ResponseEntity<?> likeUnlikePost(LikeDto likeDto)  {
+        try {
+            User user = userRepository.findById(likeDto.getIdUser())
+                    .orElseThrow(ChangeSetPersister.NotFoundException::new);
 
-        Post post = postRepository.findById(postId)
-                .orElseThrow(ChangeSetPersister.NotFoundException::new);
+            Post post = postRepository.findById(likeDto.getIdPost())
+                    .orElseThrow(ChangeSetPersister.NotFoundException::new);
 
-        // Check if the user has already liked the post and if like unlike the post
-        if (likeRepository.existsByPostAndUsers(post, user)) {
-            likeRepository.deleteById(likeRepository.findIdByPostAndUsers(post,user));
+            // Check if the user has already liked the post and if like unlike the post
+            if (likeRepository.existsByPostAndUsers(post, user)) {
+                long idPost=likeRepository.findIdByPostAndUsers(user.getId(),post.getId());
+                likeRepository.deleteById(idPost);
+
+                return ResponseEntity.ok("you unliked the post");
+            }
+
+            Like like = new Like();
+            like.setUsers(user);
+            like.setPost(post);
+            likeRepository.save(like);
+            return ResponseEntity.ok("you liked the post");
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
 
-        Like like = new Like();
-        like.setUsers(user);
-        like.setPost(post);
-
-        return likeRepository.save(like);
     }
 
     @Override

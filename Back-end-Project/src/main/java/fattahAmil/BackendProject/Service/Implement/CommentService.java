@@ -1,5 +1,6 @@
 package fattahAmil.BackendProject.Service.Implement;
 
+import fattahAmil.BackendProject.Dto.CommentDto;
 import fattahAmil.BackendProject.Entity.Comment;
 import fattahAmil.BackendProject.Entity.Post;
 import fattahAmil.BackendProject.Entity.User;
@@ -12,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,14 +31,29 @@ public class CommentService implements CommentInetrface {
     private PostRepository postRepository;
 
     @Override
-    public Comment createComment(Long postId, Comment comment) throws ChangeSetPersister.NotFoundException {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(ChangeSetPersister.NotFoundException::new);
+    public ResponseEntity<?> createComment(CommentDto commentDto) {
+        try {
+            User user = userRepository.findById(commentDto.getIdUser())
+                    .orElseThrow(ChangeSetPersister.NotFoundException::new);
 
-        comment.setPost(post);
-        // Set other properties for the comment
+            Post post = postRepository.findById(commentDto.getIdPost())
+                    .orElseThrow(ChangeSetPersister.NotFoundException::new);
 
-        return commentRepository.save(comment);
+            Comment comment=new Comment();
+            comment.setUsers(user);
+            comment.setPost(post);
+            comment.setContent(commentDto.getContent());
+            commentRepository.save(comment);
+            // Set other properties for the comment
+
+            return ResponseEntity.ok("comment has been created");
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+
     }
 
     @Override

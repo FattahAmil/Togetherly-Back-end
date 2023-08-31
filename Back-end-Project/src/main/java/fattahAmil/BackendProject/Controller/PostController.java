@@ -1,11 +1,15 @@
 package fattahAmil.BackendProject.Controller;
 
+import fattahAmil.BackendProject.Dto.CommentDto;
+import fattahAmil.BackendProject.Dto.LikeDto;
 import fattahAmil.BackendProject.Dto.MediaDto;
 import fattahAmil.BackendProject.Dto.PostDto;
 import fattahAmil.BackendProject.Entity.Media;
 import fattahAmil.BackendProject.Entity.Post;
 import fattahAmil.BackendProject.Entity.User;
 import fattahAmil.BackendProject.Repository.UserRepository;
+import fattahAmil.BackendProject.Service.Implement.CommentService;
+import fattahAmil.BackendProject.Service.Implement.LikeService;
 import fattahAmil.BackendProject.Service.Implement.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +26,10 @@ public class PostController {
 
     private final PostService postService;
 
+    private final LikeService likeService;
+
+    private final CommentService commentService;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -35,6 +43,15 @@ public class PostController {
     @GetMapping("/PostByFollowingUser")
     public ResponseEntity<?> ShowPostByFollowingUser(){
         return ResponseEntity.ok(postService.getAllPosts());
+    }
+
+    @PostMapping("/comment")
+    public ResponseEntity<?> commentPost(@RequestBody CommentDto commentDto){
+        return ResponseEntity.ok(commentService.createComment(commentDto));
+    }
+    @PostMapping("/like")
+    public ResponseEntity<?> likeUnlikePost(@RequestBody LikeDto likeDto){
+        return ResponseEntity.ok(likeService.likeUnlikePost(likeDto));
     }
 
     @GetMapping("/PostUser/{id}")

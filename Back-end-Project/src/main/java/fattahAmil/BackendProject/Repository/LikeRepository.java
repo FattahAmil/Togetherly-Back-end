@@ -4,6 +4,8 @@ import fattahAmil.BackendProject.Entity.Like;
 import fattahAmil.BackendProject.Entity.Post;
 import fattahAmil.BackendProject.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,7 +19,9 @@ public interface LikeRepository extends JpaRepository<Like,Long> {
 
     boolean existsByPostAndUsers(Post post, User user);
 
-    Long findIdByPostAndUsers(Post post, User user);
+    @Query(value = "SELECT l.id_like FROM likes l "+
+            "WHERE l.post_id_post= :idPost AND users_id =:idUser",nativeQuery = true)
+    Long findIdByPostAndUsers(@Param("idUser") String idUser, @Param("idPost") long idPost);
 
     List<Like> findByPostId(Long postId);
 }
