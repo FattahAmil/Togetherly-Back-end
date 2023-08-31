@@ -1,6 +1,7 @@
 package fattahAmil.BackendProject.Service;
 
 
+import fattahAmil.BackendProject.Dto.FollowDto;
 import fattahAmil.BackendProject.Entity.Role;
 import fattahAmil.BackendProject.Entity.User;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,7 @@ public interface UserInterface {
 
     Role saveRole(Role role);
     void addToUser(String username,String roleName);
-    User followUser(String followerId, String followedId);
-    Set<User> getFollowers(String userId);
+
 
 
 }

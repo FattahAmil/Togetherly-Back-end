@@ -1,5 +1,6 @@
 package fattahAmil.BackendProject.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,6 +26,7 @@ public class Like {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idLike;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(referencedColumnName = "idPost")
     private Post post;

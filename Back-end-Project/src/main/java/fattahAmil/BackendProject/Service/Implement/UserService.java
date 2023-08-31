@@ -1,6 +1,7 @@
 package fattahAmil.BackendProject.Service.Implement;
 
 
+import fattahAmil.BackendProject.Dto.FollowDto;
 import fattahAmil.BackendProject.Dto.UserResponse;
 import fattahAmil.BackendProject.Entity.Role;
 import fattahAmil.BackendProject.Entity.User;
@@ -11,6 +12,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -67,28 +69,22 @@ public class UserService implements UserInterface {
         user.getRoles().add(role);
     }
 
-    @Override
-    public User followUser(String followerId, String followedId) {
-        User follower = userRepository.findById(followerId).orElse(null);
-        User followed = userRepository.findById(followedId).orElse(null);
+    /*@Override
+    public ResponseEntity<?> followUser(FollowDto followDto) {
+       try {
 
-        if (follower != null && followed != null) {
-            follower.getFollowing().add(followed);
-            followed.getFollowers().add(follower);
-            userRepository.save(follower);
-            userRepository.save(followed);
-            return follower;
+           follower.getFollowing().add(followed);
+           followed.getFollowers().add(follower);
+           userRepository.save(follower);
+           userRepository.save(followed);
+           return ResponseEntity.ok(follower);
+       }catch (IllegalArgumentException e){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }catch (Exception e){
+        System.out.println(e.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
+    }*/
 
-        return null;
-    }
 
-    @Override
-    public Set<User> getFollowers(String userId) {
-        User user = userRepository.findById(userId).orElse(null);
-        if (user != null) {
-            return user.getFollowers();
-        }
-        return new HashSet<>();
-    }
 }

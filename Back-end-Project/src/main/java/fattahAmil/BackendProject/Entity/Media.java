@@ -1,5 +1,6 @@
 package fattahAmil.BackendProject.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,14 +18,18 @@ public class Media {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @ManyToOne
     private User user;
 
+   @JsonIgnore
     @ManyToOne
     private Post post;
 
-    @Lob
-    private Blob mediaData;
+
+
+    private String mediaData;
+
 
     @Column(name = "file_name")
     private String fileName;

@@ -17,6 +17,8 @@ public interface PostInterface {
     void deletePost(Long postId, User user) throws Exception;
     Post updatePost(Long postId, Post updatedPost,User user) throws Exception;
     List<Post> getAllPosts();
+
+    ResponseEntity<?> getPostAndUsersByUserAndFollowedUser(String Id);
     List<Post> getPostsByUser(User user);
 
 }

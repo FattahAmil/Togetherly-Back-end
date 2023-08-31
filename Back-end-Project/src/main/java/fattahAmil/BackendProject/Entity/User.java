@@ -51,12 +51,6 @@ public class User implements UserDetails {
     @JoinTable(name = "User_role",joinColumns = @JoinColumn(name = "User_id"),inverseJoinColumns =@JoinColumn(name = "Role_id") )
     private Set<Role> roles = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_follows",joinColumns = @JoinColumn(name = "follower_id"),inverseJoinColumns = @JoinColumn(name = "followed_id"))
-    private Set<User> following = new HashSet<>();
-
-    @ManyToMany(mappedBy = "following")
-    private Set<User> followers = new HashSet<>();
 
 
     public User(String id, String firstName, String lastName, String password, String email, Set<Role> roles) {

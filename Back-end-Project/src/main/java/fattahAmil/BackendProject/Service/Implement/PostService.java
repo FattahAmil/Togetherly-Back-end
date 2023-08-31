@@ -8,6 +8,7 @@ import fattahAmil.BackendProject.Entity.User;
 import fattahAmil.BackendProject.Repository.*;
 import fattahAmil.BackendProject.Service.PostInterface;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
@@ -59,18 +60,26 @@ public class PostService implements PostInterface {
             }
             User user =userRepository.findById(postDto.getId()).get();
             post.setUser(user);
-
+            int i=0;
             List<Media> mediaList = new ArrayList<>();
             for (MediaDto mediaDto : postDto.getMediaList()) {
                 Media media= new Media();
-                System.out.println(mediaDto.getFileContent());
-                byte[] bytes=mediaDto.getFileContent().getBytes();
-                media.setMediaData(new SerialBlob(bytes));
+                MultipartFile multipartFile = new MockMultipartFile(mediaDto.getFileName(),mediaDto.getFileContent());
+                String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+                String filePath="file"+i+System.currentTimeMillis()+"."+mediaDto.getFileType().substring(6);
+                i++;
+                 // Copy file to the target location (Replacing existing file with the same name)
+                Path targetLocation = Path.of("C:\\Users\\ZZ01DE784\\Desktop\\Front-end-togetherly\\Front-end-Project\\src\\assets\\media\\"+filePath);
+                Files.copy(multipartFile.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+                media.setMediaData(filePath);
+
+                /*byte[] bytes= mediaDto.getFileContent();
+                media.setMediaData(bytes);*/
                /* FileInputStream inputStream = new FileInputStream(mediaDto.getFileContent());
                 MultipartFile multipartFile = new MockMultipartFile(mediaDto.getFileContent(), inputStream);
                 Media media=mediaService.uploadMedia(multipartFile);*/
                 media.setFileName(mediaDto.getFileName());
-                media.setFileType(mediaDto.getFileType());
+                media.setFileType(mediaDto.getFileType().substring(6));
                 media.setFileSize(mediaDto.getFileSize());
                 media.setUser(user);
                 media.setPost(post);
@@ -93,6 +102,22 @@ public class PostService implements PostInterface {
         post.setMediaList(mediaList);
 
         return postRepository.save(post);
+    }
+
+    @Override
+    public ResponseEntity<?> getPostAndUsersByUserAndFollowedUser(String id){
+        try{
+            if (!userRepository.findById(id).isPresent()){
+                throw new IllegalArgumentException("user does not exists !");
+            }
+            List<Object> postsUser=postRepository.findPostsAndUsersByUserAndFollowingUsers(id);
+            return ResponseEntity.ok(postsUser);
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @Override
