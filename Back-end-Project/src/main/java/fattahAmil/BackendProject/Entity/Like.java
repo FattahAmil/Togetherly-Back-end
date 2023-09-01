@@ -31,7 +31,6 @@ public class Like {
     @JoinColumn(referencedColumnName = "idPost")
     private Post post;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(referencedColumnName = "id")
     private User users ;

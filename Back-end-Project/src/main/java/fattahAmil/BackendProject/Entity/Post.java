@@ -47,6 +47,7 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Like> like=new ArrayList<>();
 
+
     public void addMedia(Media media) {
         mediaList.add(media);
         media.setPost(this);

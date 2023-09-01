@@ -1,5 +1,6 @@
 package fattahAmil.BackendProject.Repository;
 
+import fattahAmil.BackendProject.Dto.PostDtoOut;
 import fattahAmil.BackendProject.Entity.Media;
 import fattahAmil.BackendProject.Entity.Post;
 import fattahAmil.BackendProject.Entity.User;
@@ -20,5 +21,5 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     @Query("SELECT p FROM Post p " +
             "WHERE p.user.id = :userId OR " +
             "p.user.id IN (SELECT fr.followed.id FROM FollowRelation fr WHERE fr.follower.id = :userId)")
-    List<Object> findPostsAndUsersByUserAndFollowingUsers(@Param("userId") String Id);
+    List<Post> findPostsAndUsersByUserAndFollowingUsers(@Param("userId") String Id);
 }

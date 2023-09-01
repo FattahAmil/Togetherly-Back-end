@@ -46,14 +46,14 @@ public class LikeService implements LikeInterface {
                 long idPost=likeRepository.findIdByPostAndUsers(user.getId(),post.getId());
                 likeRepository.deleteById(idPost);
 
-                return ResponseEntity.ok("you unliked the post");
+                return ResponseEntity.ok(null);
             }
 
             Like like = new Like();
             like.setUsers(user);
             like.setPost(post);
             likeRepository.save(like);
-            return ResponseEntity.ok("you liked the post");
+            return ResponseEntity.ok(like);
         }catch (IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }catch (Exception e){

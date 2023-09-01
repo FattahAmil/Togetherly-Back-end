@@ -2,6 +2,7 @@ package fattahAmil.BackendProject.Service.Implement;
 
 import fattahAmil.BackendProject.Dto.MediaDto;
 import fattahAmil.BackendProject.Dto.PostDto;
+import fattahAmil.BackendProject.Dto.PostDtoOut;
 import fattahAmil.BackendProject.Entity.Media;
 import fattahAmil.BackendProject.Entity.Post;
 import fattahAmil.BackendProject.Entity.User;
@@ -110,7 +111,8 @@ public class PostService implements PostInterface {
             if (!userRepository.findById(id).isPresent()){
                 throw new IllegalArgumentException("user does not exists !");
             }
-            List<Object> postsUser=postRepository.findPostsAndUsersByUserAndFollowingUsers(id);
+            List<Post> postsUser=postRepository.findPostsAndUsersByUserAndFollowingUsers(id);
+
             return ResponseEntity.ok(postsUser);
         }catch (IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
