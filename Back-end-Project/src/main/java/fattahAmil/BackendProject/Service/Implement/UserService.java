@@ -2,6 +2,7 @@ package fattahAmil.BackendProject.Service.Implement;
 
 
 import fattahAmil.BackendProject.Dto.FollowDto;
+import fattahAmil.BackendProject.Dto.NumberOfLikesFollowersFollowingDto;
 import fattahAmil.BackendProject.Dto.UserResponse;
 import fattahAmil.BackendProject.Entity.Role;
 import fattahAmil.BackendProject.Entity.User;
@@ -68,6 +69,19 @@ public class UserService implements UserInterface {
         User user=userRepository.findByEmail(username).get();
         user.getRoles().add(role);
     }
+
+    @Override
+    public ResponseEntity<?> getNumberOfLikesFollowersFollowing(String id) {
+        NumberOfLikesFollowersFollowingDto number=new NumberOfLikesFollowersFollowingDto();
+        number.setNumberOfFollowers(userRepository.counterOfNumberFollowers(id));
+        number.setNumberOfFollowing(userRepository.counterOfNumberFollowing(id));
+        number.setNumberOfLikes(userRepository.counterOfNumberLikesPerUser(id));
+
+
+        return ResponseEntity.ok(number);
+    }
+
+
 
     /*@Override
     public ResponseEntity<?> followUser(FollowDto followDto) {

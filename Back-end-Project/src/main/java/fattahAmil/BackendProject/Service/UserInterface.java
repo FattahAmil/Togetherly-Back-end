@@ -19,6 +19,7 @@ public interface UserInterface {
     Role saveRole(Role role);
     void addToUser(String username,String roleName);
 
+    ResponseEntity<?> getNumberOfLikesFollowersFollowing(String id);
 
 
 }

@@ -2,6 +2,7 @@ package fattahAmil.BackendProject.Controller;
 
 
 import fattahAmil.BackendProject.Dto.FollowDto;
+import fattahAmil.BackendProject.Dto.UserByIdReq;
 import fattahAmil.BackendProject.Repository.FollowRelationRepository;
 import fattahAmil.BackendProject.Service.Implement.FollowService;
 import fattahAmil.BackendProject.Service.Implement.UserService;
@@ -28,6 +29,11 @@ public class UserController {
     @PostMapping("/follow")
     public ResponseEntity<?> followUser(@RequestBody FollowDto followDto){
         return ResponseEntity.ok(followService.follow(followDto));
+    }
+
+    @PostMapping("/getNumbers")
+    public ResponseEntity<?> getNumbersOfLikesFollowersFollowing(@RequestBody UserByIdReq userByIdReq){
+        return ResponseEntity.ok(userService.getNumberOfLikesFollowersFollowing(userByIdReq.getIdUser()));
     }
 
     @GetMapping("/notFollowed/{id}")

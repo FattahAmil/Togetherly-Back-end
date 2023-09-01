@@ -1,9 +1,6 @@
 package fattahAmil.BackendProject.Controller;
 
-import fattahAmil.BackendProject.Dto.CommentDto;
-import fattahAmil.BackendProject.Dto.LikeDto;
-import fattahAmil.BackendProject.Dto.MediaDto;
-import fattahAmil.BackendProject.Dto.PostDto;
+import fattahAmil.BackendProject.Dto.*;
 import fattahAmil.BackendProject.Entity.Media;
 import fattahAmil.BackendProject.Entity.Post;
 import fattahAmil.BackendProject.Entity.User;
@@ -52,6 +49,10 @@ public class PostController {
     @PostMapping("/like")
     public ResponseEntity<?> likeUnlikePost(@RequestBody LikeDto likeDto){
         return ResponseEntity.ok(likeService.likeUnlikePost(likeDto));
+    }
+    @PostMapping("/delete")
+    public ResponseEntity<?> deletePost(@RequestBody DeletePostDto deletePostDto){
+        return ResponseEntity.ok(postService.deletePost(deletePostDto.getIdPost()));
     }
 
     @GetMapping("/PostUser/{id}")

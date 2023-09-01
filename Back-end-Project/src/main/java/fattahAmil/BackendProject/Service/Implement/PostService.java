@@ -123,20 +123,20 @@ public class PostService implements PostInterface {
     }
 
     @Override
-    public void deletePost(Long postId,User user) throws Exception {
-        Post existingPost = postRepository.findById(postId)
-                .orElseThrow(ChangeSetPersister.NotFoundException::new);
-
-        if (!existingPost.getUser().equals(user)||user.getRoles().stream().noneMatch(role -> role.getName().equals("ROLE_ADMIN"))){
-            throw new Exception("this is not you post and you are not an admin");
+    public ResponseEntity<?> deletePost(Long postId){
+        try{
+            if (!postRepository.findById(postId).isPresent()){
+                throw new IllegalArgumentException("post does not exists !");
+            }
+            Post existingPost = postRepository.findById(postId).get();
+            postRepository.deleteById(postId);
+            return ResponseEntity.ok("post has been deleted");
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
-
-        likeRepository.deleteByPostId(postId);
-
-        commentRepository.deleteByPostId(postId);
-
-        postRepository.deleteById(postId);
-
     }
 
     @Override

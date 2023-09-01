@@ -14,7 +14,7 @@ public interface PostInterface {
 
     Post createPostWithMedia(Post post, List<Media> mediaList);
 
-    void deletePost(Long postId, User user) throws Exception;
+    ResponseEntity<?> deletePost(Long postId);
     Post updatePost(Long postId, Post updatedPost,User user) throws Exception;
     List<Post> getAllPosts();
 
