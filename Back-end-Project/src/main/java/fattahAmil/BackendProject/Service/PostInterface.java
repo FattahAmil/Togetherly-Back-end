@@ -1,5 +1,6 @@
 package fattahAmil.BackendProject.Service;
 
+import fattahAmil.BackendProject.Dto.PostByIdDto;
 import fattahAmil.BackendProject.Dto.PostDto;
 import fattahAmil.BackendProject.Entity.Media;
 import fattahAmil.BackendProject.Entity.Post;
@@ -17,7 +18,7 @@ public interface PostInterface {
     ResponseEntity<?> deletePost(Long postId);
     Post updatePost(Long postId, Post updatedPost,User user) throws Exception;
     List<Post> getAllPosts();
-
+    ResponseEntity<?> postById(PostByIdDto postByIdDto);
     ResponseEntity<?> getPostAndUsersByUserAndFollowedUser(String Id);
     List<Post> getPostsByUser(User user);
 

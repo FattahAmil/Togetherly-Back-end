@@ -1,6 +1,7 @@
 package fattahAmil.BackendProject.Service.Implement;
 
 import fattahAmil.BackendProject.Dto.MediaDto;
+import fattahAmil.BackendProject.Dto.PostByIdDto;
 import fattahAmil.BackendProject.Dto.PostDto;
 import fattahAmil.BackendProject.Dto.PostDtoOut;
 import fattahAmil.BackendProject.Entity.Media;
@@ -121,6 +122,23 @@ public class PostService implements PostInterface {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
+    @Override
+    public ResponseEntity<?> postById(PostByIdDto postByIdDto){
+        try{
+            if (!postRepository.findById(postByIdDto.getIdPost()).isPresent()){
+                    throw new IllegalArgumentException("post does not exists !");
+            }
+
+            return ResponseEntity.ok(postRepository.findById(postByIdDto.getIdPost()).get());
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }catch (Exception e){
+                System.out.println(e.getMessage());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
 
     @Override
     public ResponseEntity<?> deletePost(Long postId){

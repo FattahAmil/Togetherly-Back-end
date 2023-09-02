@@ -1,9 +1,6 @@
 package fattahAmil.BackendProject.Controller;
 
 import fattahAmil.BackendProject.Dto.*;
-import fattahAmil.BackendProject.Entity.Media;
-import fattahAmil.BackendProject.Entity.Post;
-import fattahAmil.BackendProject.Entity.User;
 import fattahAmil.BackendProject.Repository.UserRepository;
 import fattahAmil.BackendProject.Service.Implement.CommentService;
 import fattahAmil.BackendProject.Service.Implement.LikeService;
@@ -12,9 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/posts")
@@ -51,10 +45,14 @@ public class PostController {
         return ResponseEntity.ok(likeService.likeUnlikePost(likeDto));
     }
     @PostMapping("/delete")
-    public ResponseEntity<?> deletePost(@RequestBody DeletePostDto deletePostDto){
-        return ResponseEntity.ok(postService.deletePost(deletePostDto.getIdPost()));
+    public ResponseEntity<?> deletePost(@RequestBody PostByIdDto postByIdDto){
+        return ResponseEntity.ok(postService.deletePost(postByIdDto.getIdPost()));
     }
 
+    @PostMapping("/PostById")
+    public ResponseEntity<?> postById(@RequestBody PostByIdDto postByIdDto){
+        return ResponseEntity.ok(postService.postById(postByIdDto));
+    }
     @GetMapping("/PostUser/{id}")
     public ResponseEntity<?> findPostsAndUsersByUserAndFollowingUsers(@PathVariable("id")String id){
         return ResponseEntity.ok(postService.getPostAndUsersByUserAndFollowedUser(id));
