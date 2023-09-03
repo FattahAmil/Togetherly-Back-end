@@ -53,6 +53,7 @@ public class PostController {
     public ResponseEntity<?> postById(@RequestBody PostByIdDto postByIdDto){
         return ResponseEntity.ok(postService.postById(postByIdDto));
     }
+
     @GetMapping("/PostUser/{id}")
     public ResponseEntity<?> findPostsAndUsersByUserAndFollowingUsers(@PathVariable("id")String id){
         return ResponseEntity.ok(postService.getPostAndUsersByUserAndFollowedUser(id));
