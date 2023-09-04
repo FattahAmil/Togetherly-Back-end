@@ -40,4 +40,9 @@ public class UserController {
     public ResponseEntity<?> notFollowed(@PathVariable("id")String id){
         return ResponseEntity.ok(followService.notFollowed(id));
     }
+
+    @GetMapping("/getFriends/{id}")
+    public ResponseEntity<?> findUserFriend(@PathVariable("id")String id){
+        return ResponseEntity.ok(followService.findUserFriend(id));
+    }
 }

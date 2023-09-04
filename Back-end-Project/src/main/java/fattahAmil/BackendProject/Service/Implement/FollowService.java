@@ -26,6 +26,10 @@ public class FollowService implements FollowInterface {
         return ResponseEntity.ok(followRelationshipRepository.findUsersNotFollowedBy(id));
     }
     @Override
+    public ResponseEntity<?> findUserFriend(String id){
+        return ResponseEntity.ok(followRelationshipRepository.findUserFriend(id));
+    }
+    @Override
     public ResponseEntity<?> follow(FollowDto followDto) {
         try{
             if (!userRepository.findById(followDto.getFollowed()).isPresent()){

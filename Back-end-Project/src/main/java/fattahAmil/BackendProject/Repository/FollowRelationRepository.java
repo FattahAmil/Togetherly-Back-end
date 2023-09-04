@@ -21,5 +21,14 @@ public interface FollowRelationRepository extends JpaRepository<FollowRelation,L
             "(SELECT fr.followed.id FROM FollowRelation fr WHERE fr.follower.id =  :followerId)")
     List<User> findUsersNotFollowedBy(@Param("followerId") String followerId);
 
+    @Query("SELECT u" +
+            " FROM FollowRelation fr" +
+            " JOIN User u ON fr.followed.id = u.id" +
+            " WHERE fr.follower.id = :followerId " +
+            " AND fr.followed.id IN (" +
+            " SELECT fr2.follower.id" +
+            " FROM FollowRelation fr2" +
+            " JOIN User u2 ON fr2.follower.id = u2.id)")
+    List<User>findUserFriend(@Param("followerId") String followerId);
     Optional<FollowRelation> findByFollowerAndFollowed(User follower, User followed);
 }
