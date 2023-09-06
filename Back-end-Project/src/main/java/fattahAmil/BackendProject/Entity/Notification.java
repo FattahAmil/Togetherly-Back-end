@@ -1,5 +1,6 @@
 package fattahAmil.BackendProject.Entity;
 
+import fattahAmil.BackendProject.Entity.enm.NotificationType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,9 +24,15 @@ public class Notification {
 
     private LocalDateTime timestamp;
 
+    private NotificationType notificationType;
+
     private Boolean isRead;
 
-    @ManyToOne
+    @OneToOne
+    @JoinColumn(referencedColumnName = "id")
+    private User userFrom;
+
+    @OneToOne
     @JoinColumn(referencedColumnName = "id")
     private User recipient;
 

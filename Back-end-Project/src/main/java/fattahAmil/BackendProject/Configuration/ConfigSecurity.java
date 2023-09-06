@@ -27,7 +27,7 @@ public class ConfigSecurity {
         http.csrf(AbstractHttpConfigurer::disable);
         http.sessionManagement((sessionAuthenticationStrategy -> sessionAuthenticationStrategy.sessionCreationPolicy(SessionCreationPolicy.STATELESS)));
         http.authorizeRequests().requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-                .requestMatchers("/authentication/**","/User/**").permitAll()
+                .requestMatchers("/authentication/**","/User/**","/connect/**","/app/**").permitAll()
                 .requestMatchers("/posts/create").hasAnyAuthority("ROLE_ADMIN","ROLE_TEACHER")
                 .and()
                 .csrf(AbstractHttpConfigurer::disable)

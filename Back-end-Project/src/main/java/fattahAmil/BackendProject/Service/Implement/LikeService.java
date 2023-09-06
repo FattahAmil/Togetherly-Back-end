@@ -2,35 +2,48 @@ package fattahAmil.BackendProject.Service.Implement;
 
 import fattahAmil.BackendProject.Dto.LikeDto;
 import fattahAmil.BackendProject.Entity.Like;
+import fattahAmil.BackendProject.Entity.Notification;
 import fattahAmil.BackendProject.Entity.Post;
 import fattahAmil.BackendProject.Entity.User;
+import fattahAmil.BackendProject.Entity.enm.NotificationType;
 import fattahAmil.BackendProject.Repository.LikeRepository;
+import fattahAmil.BackendProject.Repository.NotificationRepository;
 import fattahAmil.BackendProject.Repository.PostRepository;
 import fattahAmil.BackendProject.Repository.UserRepository;
 import fattahAmil.BackendProject.Service.LikeInterface;
-import fattahAmil.BackendProject.Service.PostInterface;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
+@RequiredArgsConstructor
 public class LikeService implements LikeInterface {
 
     @Autowired
     private LikeRepository likeRepository;
 
     @Autowired
+    private WebSocketService webSocketNotificationService;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Autowired
+    private NotificationRepository notificationRepository;
+
+    @Autowired
     private PostRepository postRepository;
+
+
+
+
 
     @Override
     public ResponseEntity<?> likeUnlikePost(LikeDto likeDto)  {
@@ -53,6 +66,17 @@ public class LikeService implements LikeInterface {
             like.setUsers(user);
             like.setPost(post);
             likeRepository.save(like);
+           if (!Objects.equals(user.getId(), post.getUser().getId())){
+               Notification notification=new Notification();
+               notification.setUserFrom(user);
+               notification.setIsRead(false);
+               notification.setRecipient(post.getUser());
+               notification.setMessage(user.getFirstName()+" "+user.getLastName()+" liked your post");
+               notification.setNotificationType(NotificationType.LIKE);
+               notification.setTimestamp(LocalDateTime.now());
+               notificationRepository.save(notification);
+               webSocketNotificationService.sendLikeNotification(post.getUser().getEmail(),user.getFirstName()+" "+user.getLastName()+" liked your post" );
+           }
             return ResponseEntity.ok(like);
         }catch (IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

@@ -14,21 +14,24 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "ChatMessage")
 public class ChatMessage {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
-        private MessageType type;
-        private String content;
-        private String sender;
-        private String recipient;
-        private LocalDateTime timestamp;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public ChatMessage(  String sender, String recipient, String content) {
-        this.type = MessageType.CHAT;
-        this.content = content;
-        this.sender = sender;
-        this.recipient = recipient;
-        this.timestamp = LocalDateTime.now();
-    }
+    private MessageType type;
+
+    private String content;
+
+    @OneToOne
+    @JoinColumn(referencedColumnName = "id")
+    private User sender;
+
+    @OneToOne
+    @JoinColumn(referencedColumnName = "id")
+    private User recipient;
+
+    private LocalDateTime timestamp;
+
+
 }
 

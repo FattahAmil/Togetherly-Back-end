@@ -6,7 +6,7 @@ import fattahAmil.BackendProject.Entity.Notification;
 import java.util.List;
 
 public interface NotificationInterface {
-    Notification createNotification(User recipient, String message);
+    Notification createNotification(User Sender,User recipient, String message);
     List<Notification> getNotificationsForUser(User user);
     public Notification markNotificationAsRead(Long notificationId);
     public Notification markNotificationAsUnread(Long notificationId);

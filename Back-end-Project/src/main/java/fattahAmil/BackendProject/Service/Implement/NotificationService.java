@@ -15,13 +15,14 @@ public class NotificationService implements NotificationInterface {
     private NotificationRepository notificationRepository;
 
     @Override
-    public Notification createNotification(User recipient, String message) {
+    public Notification createNotification(User sender,User recipient, String message) {
         Notification notification = new Notification();
         notification.setRecipient(recipient);
+        notification.setUserFrom(sender);
         notification.setMessage(message);
         notification.setTimestamp(LocalDateTime.now());
         notification.setIsRead(false);
-        return notificationRepository.save(notification);
+        return notification;
     }
 
     @Override
