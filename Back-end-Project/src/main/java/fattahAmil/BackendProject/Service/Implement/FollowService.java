@@ -2,8 +2,11 @@ package fattahAmil.BackendProject.Service.Implement;
 
 import fattahAmil.BackendProject.Dto.FollowDto;
 import fattahAmil.BackendProject.Entity.FollowRelation;
+import fattahAmil.BackendProject.Entity.Notification;
 import fattahAmil.BackendProject.Entity.User;
+import fattahAmil.BackendProject.Entity.enm.NotificationType;
 import fattahAmil.BackendProject.Repository.FollowRelationRepository;
+import fattahAmil.BackendProject.Repository.NotificationRepository;
 import fattahAmil.BackendProject.Repository.UserRepository;
 import fattahAmil.BackendProject.Service.FollowInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -20,6 +25,9 @@ public class FollowService implements FollowInterface {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
 
     @Override
     public ResponseEntity<?> notFollowed(String id){
@@ -46,6 +54,16 @@ public class FollowService implements FollowInterface {
                  relationship.setFollower(follower);
                  relationship.setFollowed(followed);
                  followRelationshipRepository.save(relationship);
+                 if (!Objects.equals(followed.getId(), follower.getId())){
+                     Notification notification=new Notification();
+                     notification.setUserFrom(follower);
+                     notification.setIsRead(false);
+                     notification.setRecipient(followed);
+                     notification.setMessage(" you are followed by "+follower.getFirstName()+" "+follower.getLastName());
+                     notification.setNotificationType(NotificationType.FOLLOW);
+                     notification.setEmailFrom(follower.getEmail());
+                     notificationRepository.save(notification);
+                 }
                  return ResponseEntity.ok("has been followed");
              }
                  followRelationshipRepository.deleteById(follow.get().getId());

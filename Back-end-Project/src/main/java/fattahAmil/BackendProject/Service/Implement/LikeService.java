@@ -73,9 +73,8 @@ public class LikeService implements LikeInterface {
                notification.setRecipient(post.getUser());
                notification.setMessage(user.getFirstName()+" "+user.getLastName()+" liked your post");
                notification.setNotificationType(NotificationType.LIKE);
-               notification.setTimestamp(LocalDateTime.now());
+               notification.setIdPost(post.getId());
                notificationRepository.save(notification);
-               webSocketNotificationService.sendLikeNotification(post.getUser().getEmail(),user.getFirstName()+" "+user.getLastName()+" liked your post" );
            }
             return ResponseEntity.ok(like);
         }catch (IllegalArgumentException e){

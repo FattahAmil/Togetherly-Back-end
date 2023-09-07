@@ -2,9 +2,12 @@ package fattahAmil.BackendProject.Service.Implement;
 
 import fattahAmil.BackendProject.Dto.CommentDto;
 import fattahAmil.BackendProject.Entity.Comment;
+import fattahAmil.BackendProject.Entity.Notification;
 import fattahAmil.BackendProject.Entity.Post;
 import fattahAmil.BackendProject.Entity.User;
+import fattahAmil.BackendProject.Entity.enm.NotificationType;
 import fattahAmil.BackendProject.Repository.CommentRepository;
+import fattahAmil.BackendProject.Repository.NotificationRepository;
 import fattahAmil.BackendProject.Repository.PostRepository;
 import fattahAmil.BackendProject.Repository.UserRepository;
 import fattahAmil.BackendProject.Service.CommentInetrface;
@@ -17,7 +20,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CommentService implements CommentInetrface {
@@ -26,6 +31,9 @@ public class CommentService implements CommentInetrface {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private NotificationRepository notificationRepository;
+
 
     @Autowired
     private PostRepository postRepository;
@@ -44,6 +52,16 @@ public class CommentService implements CommentInetrface {
             comment.setPost(post);
             comment.setContent(commentDto.getContent());
             commentRepository.save(comment);
+            if (!Objects.equals(user.getId(), post.getUser().getId())){
+                Notification notification=new Notification();
+                notification.setUserFrom(user);
+                notification.setIsRead(false);
+                notification.setRecipient(post.getUser());
+                notification.setMessage(user.getFirstName()+" "+user.getLastName()+" comment your Post your post");
+                notification.setNotificationType(NotificationType.COMMENT);
+                notification.setIdPost(post.getId());
+                notificationRepository.save(notification);
+            }
             // Set other properties for the comment
 
             return ResponseEntity.ok("comment has been created");

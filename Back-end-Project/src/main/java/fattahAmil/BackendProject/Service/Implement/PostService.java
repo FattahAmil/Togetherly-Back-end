@@ -72,6 +72,7 @@ public class PostService implements PostInterface {
                 i++;
                  // Copy file to the target location (Replacing existing file with the same name)
                 Path targetLocation = Path.of("C:\\Users\\ZZ01DE784\\Desktop\\New folder (2)\\Front-end-togetherly\\Front-end-Project\\src\\assets\\media\\"+filePath);
+
                 Files.copy(multipartFile.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
                 media.setMediaData(filePath);
 

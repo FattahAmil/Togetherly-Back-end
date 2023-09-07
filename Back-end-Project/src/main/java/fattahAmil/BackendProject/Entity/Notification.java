@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -15,6 +16,10 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "Notification")
 public class Notification {
+    @PrePersist
+    protected void onCreate(){
+        this.createdAt=new Date(System.currentTimeMillis());
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,17 +27,21 @@ public class Notification {
 
     private String message;
 
-    private LocalDateTime timestamp;
+    private Date createdAt;
+
+    private Long idPost;
+
+    private String emailFrom;
 
     private NotificationType notificationType;
 
     private Boolean isRead;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(referencedColumnName = "id")
     private User userFrom;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(referencedColumnName = "id")
     private User recipient;
 
