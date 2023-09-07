@@ -53,6 +53,9 @@ public class CommentService implements CommentInetrface {
             comment.setContent(commentDto.getContent());
             commentRepository.save(comment);
             if (!Objects.equals(user.getId(), post.getUser().getId())){
+                if (notificationRepository.findByRecipientAndUserFromAndNotificationTypeAndIdPost(post.getUser(),user,NotificationType.LIKE,post.getId()).isPresent()){
+                    notificationRepository.deleteById(notificationRepository.findByRecipientAndUserFromAndNotificationTypeAndIdPost(post.getUser(),user,NotificationType.LIKE,post.getId()).get().getId());
+                }
                 Notification notification=new Notification();
                 notification.setUserFrom(user);
                 notification.setIsRead(false);

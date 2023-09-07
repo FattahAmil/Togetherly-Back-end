@@ -55,6 +55,9 @@ public class FollowService implements FollowInterface {
                  relationship.setFollowed(followed);
                  followRelationshipRepository.save(relationship);
                  if (!Objects.equals(followed.getId(), follower.getId())){
+                     if (notificationRepository.findByRecipientAndUserFromAndNotificationType(followed,follower,NotificationType.FOLLOW).isPresent()){
+                         notificationRepository.deleteById(notificationRepository.findByRecipientAndUserFromAndNotificationType(followed,follower,NotificationType.FOLLOW).get().getId());
+                     }
                      Notification notification=new Notification();
                      notification.setUserFrom(follower);
                      notification.setIsRead(false);
