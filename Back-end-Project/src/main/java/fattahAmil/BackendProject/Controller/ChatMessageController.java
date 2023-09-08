@@ -1,22 +1,23 @@
 package fattahAmil.BackendProject.Controller;
 
-import fattahAmil.BackendProject.Dto.ChatDtoReq;
-import fattahAmil.BackendProject.Entity.ChatMessage;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Controller;
+import fattahAmil.BackendProject.Dto.RecipientSenderDto;
+import fattahAmil.BackendProject.Service.Implement.ChatMessageService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
+@RequestMapping("/chatMessage")
+@RequiredArgsConstructor
 public class ChatMessageController {
 
-    @Autowired
-   private SimpMessagingTemplate simpMessagingTemplate;
-    @MessageMapping("/privateMessage")
-    private void PrivateMessage(@Payload ChatDtoReq chatMessage){
-        String destination = "/user/" + chatMessage.getUserEmailReceiver() + "/privateMessage";
-        simpMessagingTemplate.convertAndSend(destination, chatMessage);
+    private final ChatMessageService chatMessageService;
+
+    @PostMapping("/getChat")
+    public ResponseEntity<?> getMessageBySenderAndRecipient(@RequestBody RecipientSenderDto recipientSenderDto){
+        return ResponseEntity.ok(chatMessageService.getMessageBySenderAndRecipient(recipientSenderDto.getSenderId(), recipientSenderDto.getRecipientId()));
     }
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -14,6 +15,12 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "ChatMessage")
 public class ChatMessage {
+    @PrePersist
+    protected void onCreate(){
+        this.createdAt=new Date(System.currentTimeMillis());
+    }
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,15 +29,15 @@ public class ChatMessage {
 
     private String content;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(referencedColumnName = "id")
     private User sender;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(referencedColumnName = "id")
     private User recipient;
 
-    private LocalDateTime timestamp;
+    private Date createdAt;
 
 
 }
