@@ -59,7 +59,7 @@ public class ChatMessageService implements ChatMessageInterface {
                 notification.setIsRead(false);
                 notification.setRecipient(recipient);
                 notification.setMessage(sender.getFirstName()+" "+sender.getLastName()+" send your a message");
-                notification.setNotificationType(NotificationType.LIKE);
+                notification.setNotificationType(NotificationType.MESSAGE);
                 notification.setEmailFrom(sender.getEmail());
                 notificationRepository.save(notification);
             }
