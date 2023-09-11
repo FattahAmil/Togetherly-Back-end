@@ -58,4 +58,6 @@ public class PostController {
     public ResponseEntity<?> findPostsAndUsersByUserAndFollowingUsers(@PathVariable("id")String id){
         return ResponseEntity.ok(postService.getPostAndUsersByUserAndFollowedUser(id));
     }
+
+
 }

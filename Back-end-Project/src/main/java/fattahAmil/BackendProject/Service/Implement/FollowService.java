@@ -79,5 +79,29 @@ public class FollowService implements FollowInterface {
         }
     }
 
+    @Override
+    public ResponseEntity<?> checkIfFriend(String idUser1,String idUser2){
+        try {
+            if (!userRepository.findById(idUser1).isPresent()){
+                throw new IllegalArgumentException("follower does not exists !");
+            }
+            if (!userRepository.findById(idUser2).isPresent()){
+                throw new IllegalArgumentException("followed does not exists !");
+            }
+            User follower = userRepository.findById(idUser1).get();
+            User followed = userRepository.findById(idUser2).get();
+
+            if (followRelationshipRepository.findByFollowerAndFollowed(follower,followed).isPresent() && followRelationshipRepository.findByFollowerAndFollowed(followed,follower).isPresent()){
+                return ResponseEntity.ok(true);
+            }
+                return  ResponseEntity.ok(false);
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
 
 }

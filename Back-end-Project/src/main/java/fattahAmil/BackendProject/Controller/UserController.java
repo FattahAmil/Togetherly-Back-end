@@ -2,6 +2,7 @@ package fattahAmil.BackendProject.Controller;
 
 
 import fattahAmil.BackendProject.Dto.FollowDto;
+import fattahAmil.BackendProject.Dto.RecipientSenderDto;
 import fattahAmil.BackendProject.Dto.UserByIdReq;
 import fattahAmil.BackendProject.Repository.FollowRelationRepository;
 import fattahAmil.BackendProject.Service.Implement.FollowService;
@@ -44,5 +45,9 @@ public class UserController {
     @GetMapping("/getFriends/{id}")
     public ResponseEntity<?> findUserFriend(@PathVariable("id")String id){
         return ResponseEntity.ok(followService.findUserFriend(id));
+    }
+    @PostMapping("/isFriend")
+    public ResponseEntity<?> checkIfFriend(@RequestBody RecipientSenderDto recipientSenderDto){
+        return ResponseEntity.ok(followService.checkIfFriend(recipientSenderDto.getSenderId(), recipientSenderDto.getRecipientId()));
     }
 }
