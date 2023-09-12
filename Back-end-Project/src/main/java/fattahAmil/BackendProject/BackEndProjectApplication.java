@@ -33,9 +33,9 @@ public class BackEndProjectApplication {
 			userService.saveRole(new Role(2, "ROLE_TEACHER", "this is Teacher"));
 			userService.saveRole(new Role(3, "ROLE_ADMIN", "this is Admin"));
 
-			userService.saveUser(new User("fattah","amil","fattah","fattah@ibm.com",new HashSet<>()));
-			userService.saveUser(new User("fahd","fahd","fahd","fahd@ibm.com",new HashSet<>()));
-			userService.saveUser(new User("hamid","hamid","hamid","hamid@ibm.com",new HashSet<>()));
+			userService.saveUser(new User("fattah","amil","Fattah12","fattah@ibm.com",new HashSet<>()));
+			userService.saveUser(new User("fahd","fahd","Fahd1234","fahd@ibm.com",new HashSet<>()));
+			userService.saveUser(new User("hamid","hamid","Hamid123","hamid@ibm.com",new HashSet<>()));
 
 
 			userService.addToUser("fattah@ibm.com","ROLE_ADMIN");
