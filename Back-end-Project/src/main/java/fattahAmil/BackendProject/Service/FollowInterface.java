@@ -12,5 +12,6 @@ public interface FollowInterface {
 
     public ResponseEntity<?> follow(FollowDto followDto);
 
+    public ResponseEntity<?> checkIfFollow(FollowDto followDto);
     public ResponseEntity<?> findUserFriend(String id);
 }

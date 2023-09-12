@@ -50,4 +50,9 @@ public class UserController {
     public ResponseEntity<?> checkIfFriend(@RequestBody RecipientSenderDto recipientSenderDto){
         return ResponseEntity.ok(followService.checkIfFriend(recipientSenderDto.getSenderId(), recipientSenderDto.getRecipientId()));
     }
+
+    @PostMapping("/isFollow")
+    public  ResponseEntity<?> checkIfFollow(@RequestBody FollowDto followDto){
+        return ResponseEntity.ok(followService.checkIfFollow(followDto));
+    }
 }
