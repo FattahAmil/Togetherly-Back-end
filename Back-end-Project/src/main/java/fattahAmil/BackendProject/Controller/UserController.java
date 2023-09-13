@@ -55,4 +55,9 @@ public class UserController {
     public  ResponseEntity<?> checkIfFollow(@RequestBody FollowDto followDto){
         return ResponseEntity.ok(followService.checkIfFollow(followDto));
     }
+
+    @GetMapping("/findAllUsers")
+    public ResponseEntity<?> findAllUsers(){
+        return ResponseEntity.ok(userService.findAllUsers());
+    }
 }

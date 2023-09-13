@@ -80,6 +80,15 @@ public class UserService implements UserInterface {
 
         return ResponseEntity.ok(number);
     }
+    @Override
+    public ResponseEntity<?> findAllUsers(){
+        try{
+            return ResponseEntity.ok(userRepository.findAll());
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
 
 
 

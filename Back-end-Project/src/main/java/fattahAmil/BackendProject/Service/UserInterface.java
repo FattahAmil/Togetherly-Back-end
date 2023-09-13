@@ -21,5 +21,7 @@ public interface UserInterface {
 
     ResponseEntity<?> getNumberOfLikesFollowersFollowing(String id);
 
+    ResponseEntity<?> findAllUsers();
+
 
 }
