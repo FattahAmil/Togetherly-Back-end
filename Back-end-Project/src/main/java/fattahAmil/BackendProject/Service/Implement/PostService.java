@@ -28,10 +28,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.Blob;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class PostService implements PostInterface {
@@ -67,7 +64,6 @@ public class PostService implements PostInterface {
             for (MediaDto mediaDto : postDto.getMediaList()) {
                 Media media= new Media();
                 MultipartFile multipartFile = new MockMultipartFile(mediaDto.getFileName(),mediaDto.getFileContent());
-                String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
                 String filePath="file"+i+System.currentTimeMillis()+"."+mediaDto.getFileType().substring(6);
                 i++;
                  // Copy file to the target location (Replacing existing file with the same name)
