@@ -40,6 +40,11 @@ public class PostController {
     public ResponseEntity<?> commentPost(@RequestBody CommentDto commentDto){
         return ResponseEntity.ok(commentService.createComment(commentDto));
     }
+    @PostMapping("/deleteComment")
+    public ResponseEntity<?> deleteCommentPost(@RequestBody IdCommentDto idCommentDto){
+        return ResponseEntity.ok(commentService.deleteComment(idCommentDto.getIdComment()));
+    }
+
     @PostMapping("/like")
     public ResponseEntity<?> likeUnlikePost(@RequestBody LikeDto likeDto){
         return ResponseEntity.ok(likeService.likeUnlikePost(likeDto));

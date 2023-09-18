@@ -3,6 +3,7 @@ package fattahAmil.BackendProject.Entity;
 import fattahAmil.BackendProject.Entity.enm.MessageType;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.extern.apachecommons.CommonsLog;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -25,8 +26,10 @@ public class ChatMessage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 6)
     private MessageType type;
 
+    @Column(length = 251)
     private String content;
 
     @ManyToOne

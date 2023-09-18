@@ -27,17 +27,17 @@ public class Media {
     private Post post;
 
 
-
+    @Column(length = 50)
     private String mediaData;
 
 
-    @Column(name = "file_name")
+    @Column(name = "file_name",length = 80)
     private String fileName;
 
-    @Column(name = "file_type")
+    @Column(name = "file_type",length = 10)
     private String fileType;
 
-    @Column(name = "file_size")
+    @Column(name = "file_size",length = 20)
     private Long fileSize;
 
 

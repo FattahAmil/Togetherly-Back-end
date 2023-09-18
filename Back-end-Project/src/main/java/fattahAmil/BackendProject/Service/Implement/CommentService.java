@@ -65,7 +65,6 @@ public class CommentService implements CommentInetrface {
                 notification.setIdPost(post.getId());
                 notificationRepository.save(notification);
             }
-            // Set other properties for the comment
 
             return ResponseEntity.ok("comment has been created");
         }catch (IllegalArgumentException e){
@@ -82,10 +81,6 @@ public class CommentService implements CommentInetrface {
         Comment existingComment = commentRepository.findById(commentId)
                 .orElseThrow(ChangeSetPersister.NotFoundException::new);
 
-        // || user.getRoles().stream().noneMatch(role -> role.getName().equals("ROLE_ADMIN"))  for check a role
-    if (!existingComment.getUsers().equals(user) || user.getRoles().stream().noneMatch(role -> role.getName().equals("ROLE_ADMIN"))) {
-            throw new Exception("You are not authorized to update this comment and you are not an admin");
-        }
 
 
         existingComment.setContent(updatedComment.getContent());
@@ -96,15 +91,23 @@ public class CommentService implements CommentInetrface {
 
 
     @Override
-    public void deleteComment(Long commentId,User user) throws Exception {
-        Comment existingComment = commentRepository.findById(commentId)
-                .orElseThrow(ChangeSetPersister.NotFoundException::new);
+    public ResponseEntity<?> deleteComment(Long commentId) {
+        try{
+            if (commentRepository.findById(commentId).isEmpty()){
+                throw new IllegalArgumentException("user does not exists !");
+            }
+            commentRepository.deleteById(commentId);
+           return ResponseEntity.ok("comment has been deleted ");
 
-        // || user.getRoles().stream().noneMatch(role -> role.getName().equals("ROLE_ADMIN"))  for check a role
-        if (!existingComment.getUsers().equals(user) || user.getRoles().stream().noneMatch(role -> role.getName().equals("ROLE_ADMIN"))) {
-            throw new Exception("You are not authorized to update this comment and you are not an admin");
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
-        commentRepository.deleteById(commentId);
+
+
+
 
     }
 

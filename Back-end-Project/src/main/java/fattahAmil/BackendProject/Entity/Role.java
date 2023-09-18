@@ -34,9 +34,11 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO
             ,generator = "role_sequence")
     private long id;
+
+    @Column(length = 50)
     private String name;
 
-
+    @Column(length = 50)
     private String description;
 
     private Date updated_at;

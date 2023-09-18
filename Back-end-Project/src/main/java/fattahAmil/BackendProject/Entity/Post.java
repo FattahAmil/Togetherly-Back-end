@@ -26,7 +26,7 @@ public class Post {
     @Column(name = "idPost")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 101)
     private String content;
 
     private Date created_at;

@@ -25,14 +25,17 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 50)
     private String message;
 
     private Date createdAt;
 
     private Long idPost;
 
+    @Column(length = 50)
     private String emailFrom;
 
+    @Column(length = 8)
     private NotificationType notificationType;
 
     private Boolean isRead;

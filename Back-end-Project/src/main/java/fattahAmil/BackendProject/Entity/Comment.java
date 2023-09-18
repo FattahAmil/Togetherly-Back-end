@@ -24,6 +24,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idComment;
 
+    @Column(length = 70)
     private String content;
 
     @JsonIgnore

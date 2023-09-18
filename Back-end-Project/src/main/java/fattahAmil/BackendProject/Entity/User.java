@@ -31,16 +31,22 @@ public class User implements UserDetails {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
+    @Column(length = 20)
     private String firstName;
 
+    @Column(length = 20)
     private String lastName;
 
+    @Column(length = 50)
     private String profileImage;
 
+    @Column(length = 50)
     private String userName;
+
 
     private String password;
 
+    @Column(length = 100)
     private String email;
 
     private Date created_at;

@@ -26,8 +26,8 @@ public class JwtService {
     @Autowired
     private RoleCostumeRepository roleCostumeRepository;
 
-    public String generateToken(User user, Collection<SimpleGrantedAuthority> authorities){        Algorithm algorithm = Algorithm.HMAC256(secretKey.getBytes());
-
+    public String generateToken(User user, Collection<SimpleGrantedAuthority> authorities){
+        Algorithm algorithm = Algorithm.HMAC256(secretKey.getBytes());
         return JWT.create().withSubject(user.getEmail()).withExpiresAt(new Date(System.currentTimeMillis()+86400000))
                 .withClaim("roles",authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
